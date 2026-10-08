@@ -33,4 +33,6 @@ Read October 2026.
 ## What we found while building it
 A 25 block live scan (slots 454659654 to 454659678) gave 3,257 swaps, 494 of them Pump.fun bonding curve sales read
 through the lamport fallback, and three profitable sandwiches with a gap of up to two slots, all on Pump.fun bonding
-curves. Two of them are the test fixtures.
+curves. Two of them are the test fixtures. Looking closer, one of the two (attacker `JCGj...`, token `8U8o...pump`) is
+the token creator: the front leg is the creation transaction (CreateV2 plus BuyV2, 5% of supply), and the back leg sells
+into four buyers one slot later. It matches the sandwich pattern but is a launch dump, not a third-party attack.

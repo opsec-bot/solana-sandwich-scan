@@ -33,8 +33,11 @@ npx tsx src/cli.ts scan --rpc https://api.mainnet-beta.solana.com --last 40 --ma
 npx tsx src/cli.ts summary sandwiches.jsonl
 ```
 
-The tests include two real Pump.fun sandwiches from mainnet. In one, an attacker bought 1.49 SOL of a new token, four
-victims bought 4.1 SOL right after, and the attacker sold one slot later for 0.37 SOL profit.
+The tests include two real Pump.fun cases from mainnet. In one, the "attacker" turned out to be the token's creator:
+they bought 5% of the supply in the creation transaction, four buyers put in 4.1 SOL right after, and the creator sold
+one slot later for 0.37 SOL profit. The pattern is the same as a sandwich, so the detector reports it. Telling a
+creator's launch dump from a third-party attack needs one more check: whether the front leg is the token's creation
+transaction.
 
 [docs/sample-2026-10-08.md](docs/sample-2026-10-08.md) has a 40 block scan. In both samples we ran, every sandwich
 crossed a slot boundary and the strict same-block default found none. That is worth knowing if you compare against
@@ -45,6 +48,7 @@ Full rules in [docs/SPEC.md](docs/SPEC.md).
 ## Limits
 - Victim loss is not computed. We report attacker profit and victim volume.
 - Wider slot gaps also catch fast momentum trading. Check the timing before calling one an attack.
+- A creator who buys at launch and sells into early buyers matches the same pattern as an attack.
 - Attackers that route through an unlisted pool program, or use unrelated wallets with no shared fee payer, are missed.
 
 ## License
